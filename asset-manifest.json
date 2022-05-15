@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/reacte-movies/static/css/main.f49088a6.css",
+    "main.js": "/reacte-movies/static/js/main.ea3b4764.js",
+    "index.html": "/reacte-movies/index.html",
+    "main.f49088a6.css.map": "/reacte-movies/static/css/main.f49088a6.css.map",
+    "main.ea3b4764.js.map": "/reacte-movies/static/js/main.ea3b4764.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f49088a6.css",
+    "static/js/main.ea3b4764.js"
+  ]
+}
