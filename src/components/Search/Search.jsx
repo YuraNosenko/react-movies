@@ -1,109 +1,91 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-class Search extends React.Component {
-    state = {
-        search: '',
-        searchParam: 'all',
+const Search = (props) => {
+    const [search, setSearch] = useState('');
+    const [searchParam, setSearchParam] = useState('all');
+
+    const changeParam = (event) => {
+        setSearchParam(event.target.dataset.type);
+
+        if (search.trim() !== '') {
+            props.cb(search, event.target.dataset.type);
+        }
     };
 
-    constructor() {
-        super();
+    const handleSearch = (event) => {
+        setSearch(event.target.value);
+    };
 
-        this.handleSearch = this.handleSearch.bind(this);
-        this.sendQeury = this.sendQeury.bind(this);
-        this.changeParam = this.changeParam.bind(this);
-    }
-
-    changeParam(event) {
-        const { search } = this.state;
-
-        this.setState({ searchParam: event.target.dataset.type });
-
-        if (this.state.search.trim() !== '') {
-            this.props.cb(search, event.target.dataset.type);
+    const sendQeury = (event) => {
+        if (event.keyCode === 13 && search.trim() !== '') {
+            props.cb(search, searchParam);
         }
-    }
+    };
 
-    handleSearch(event) {
-        this.setState({ [event.target.type]: event.target.value });
-    }
+    return (
+        <div className='row'>
+            <div className='input-field'>
+                <input
+                    className='validate'
+                    placeholder='Search'
+                    id='search_inline'
+                    type='search'
+                    value={search}
+                    onChange={handleSearch}
+                    onKeyDown={sendQeury}
+                />
 
-    sendQeury(event) {
-        const { search, searchParam } = this.state;
-
-        if (event.keyCode === 13 && this.state.search.trim() !== '') {
-            this.props.cb(search, searchParam);
-        }
-    }
-
-    render() {
-        const { search, searchParam } = this.state;
-
-        return (
-            <div className='row'>
-                <div className='input-field'>
-                    <input
-                        className='validate'
-                        placeholder='Search'
-                        id='search_inline'
-                        type='search'
-                        value={search}
-                        onChange={this.handleSearch}
-                        onKeyDown={this.sendQeury}
-                    />
-
-                    <button
-                        className='waves-effect waves-light btn search-btn'
-                        onClick={() => this.props.cb(search, searchParam)}
-                    >
-                        Find new movies
-                    </button>
-                </div>
-
-                <div className='filters'>
-                    <p>
-                        <label>
-                            <input
-                                className='with-gap'
-                                name='type'
-                                type='radio'
-                                data-type='all'
-                                checked={searchParam === 'all'}
-                                onChange={this.changeParam}
-                            />
-                            <span>All</span>
-                        </label>
-                    </p>
-                    <p>
-                        <label>
-                            <input
-                                className='with-gap'
-                                name='type'
-                                type='radio'
-                                data-type='movie'
-                                checked={searchParam === 'movie'}
-                                onChange={this.changeParam}
-                            />
-                            <span>Movies only</span>
-                        </label>
-                    </p>
-                    <p>
-                        <label>
-                            <input
-                                className='with-gap'
-                                name='type'
-                                type='radio'
-                                data-type='series'
-                                checked={searchParam === 'series'}
-                                onChange={this.changeParam}
-                            />
-                            <span>Series only</span>
-                        </label>
-                    </p>
-                </div>
+                <button
+                    className='waves-effect waves-light btn search-btn'
+                    onClick={() => props.cb(search, searchParam)}
+                >
+                    Find new movies
+                </button>
             </div>
-        );
-    }
-}
+
+            <div className='filters'>
+                <p>
+                    <label>
+                        <input
+                            className='with-gap'
+                            name='type'
+                            type='radio'
+                            data-type='all'
+                            checked={searchParam === 'all'}
+                            onChange={changeParam}
+                        />
+                        <span>All</span>
+                    </label>
+                </p>
+                <p>
+                    <label>
+                        <input
+                            className='with-gap'
+                            name='type'
+                            type='radio'
+                            data-type='movie'
+                            checked={searchParam === 'movie'}
+                            onChange={changeParam}
+                        />
+                        <span>Movies only</span>
+                    </label>
+                </p>
+                <p>
+                    <label>
+                        <input
+                            className='with-gap'
+                            name='type'
+                            type='radio'
+                            data-type='series'
+                            checked={searchParam === 'series'}
+                            onChange={changeParam}
+                        />
+                        <span>Series only</span>
+                    </label>
+                </p>
+            </div>
+        </div>
+    );
+};
 
 export { Search };
